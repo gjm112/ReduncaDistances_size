@@ -1,0 +1,295 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Arial-BoldMT;\f1\fswiss\fcharset0 ArialMT;\f2\fmodern\fcharset0 Courier;
+\f3\fmodern\fcharset0 CourierNewPS-BoldMT;\f4\fmodern\fcharset0 CourierNewPSMT;\f5\fmodern\fcharset0 Courier-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww13640\viewh18980\viewkind1
+\deftab720
+\pard\pardeftab720\ri0\partightenfactor0
+
+\f0\b\fs20 \cf0 Main Closed Curve Programs: before using these programs compile DynamicProgrammingQ.c using: mex DynamicProgrammingQ.c
+\f1\b0 \
+\
+Contained is also a .mat file with toy data and a datakey file.\
+\
+
+\f0\b CategoryTrainTangentFeaturs.m: 
+\f2\b0 \cf2 for each category, project all objects onto the tangent space of that
+\fs24  
+\fs20 categories training data mean and save the x,y coordinates and the names of the categories in the order the coords were placed in 
+\f1 \cf0 \
+\
+
+\f0\b cplusplus_setup.m:
+\f1\b0  Code to setup C++ complier\
+\
+
+\f0\b curve_to_q.m: 
+\f1\b0 takes curve p and puts it in SRVF\
+\
+
+\f0\b ElasticGeodesicClosedSym.m:
+\f1\b0  computes the geodesic path and distance between a closed curve and its arbitrary reflection with the midpoint of the geodesic beging the nearest symmetric shape; input - a curve p1 as a 2xn matrix; output - geodesic distance and nearest symmetric shape Xsym; to turn off plots set figs=0\
+\
+
+\f0\b ElasticShooting.m
+\f1\b0 : Shoot q1 along v\
+\
+
+\f0\b ElasticShootingVector.m: 
+\f1\b0 Shooting vector from q1 to q2\
+\
+
+\f0\b ElasticShootingVector.m:
+\f1\b0  ElasticShootingVector with Find_Rotation_and_Seed_unique_fast\
+\
+
+\f0\b Find_Best_Rotation.m:
+\f1\b0  Find the best rotation assuming the starting points are fixed. \
+\
+\pard\pardeftab720\ri0\partightenfactor0
+
+\f3\b \cf0 FindElasticCovariance.m
+\f4\b0 : computes the covariance of the data; input - mu and q as they were given by either FindElasticMean.m or FindElasticMedian.m depending on where you want to compute the covariance (at the mean or median); output - orthonormal matrix U with principal components as columns; Figures 11-13 display the 3 main modes of variation in the data form -1.5 to 1.5 standard deviations, Figure 17 displays some random samples from the Gaussian distribution\
+\pard\pardeftab720\ri0\partightenfactor0
+
+\f1 \cf0 \
+\pard\pardeftab720\ri0\partightenfactor0
+
+\f3\b \cf0 FindElasticCovariance.m
+\f4\b0 : FindElasticCovariance with ElasticShoortingVectorFast
+\f1 \
+\
+
+\f3\b FindElasticMean.m
+\f4\b0 : computes the Karcher mean; input - Data as a 2xnxm array where n is the number of points on the curve and m is the number of curves in the data; output - q which are the SRVFs of the original data, mu which is the SRVF of the mean (using q_to_curve to obtain the mean curve)\
+\
+
+\f3\b FindElasticMeanFast.m
+\f4\b0 : FindElasticMean with ElasticShoortingVectorFast \
+\
+
+\f3\b FindElasticFast_initialized.m
+\f4\b0 : Find ElasticMeanFast where the fitting is initialized at a initial_mu of our choice\
+\
+
+\f3\b FindElasticMedian.m
+\f4\b0 : computes the intrinsic median; input - same as FindElasticMean.m; output - same as FindElasticMean.m except now mu refers to the SRVF of the median\
+\
+
+\f3\b FindElasticMedianFast.m
+\f4\b0 : FindElasticMedian with ElasticShoortingVectorFast \
+\
+
+\f3\b \cf2 FindPairwiseDistance.m:
+\f4\b0  
+\f2 this uses GeodesicElasticClosed.m to find the pairwise distances between
+\fs24  
+\fs20 each closed curve in a dataset \
+\
+
+\f3\b FindPairwiseDistance_baseline.m:
+\f4\b0  
+\f2 this uses GeodesicElasticClosed_baseline.m to find the pairwise distances between
+\fs24  
+\fs20 each closed curve in a dataset\
+\
+
+\f3\b FindPairwiseDistanceFast.m:
+\f4\b0  
+\f2 this uses GeodesicElasticClosedFast_NS.m to find the pairwise distances between
+\fs24  
+\fs20 each closed curve in a dataset \
+\
+
+\f3\b FindPairwiseDistanceFast_baseline.m:
+\f4\b0  
+\f2 this uses GeodesicElasticClosedFast_NS_baseline.m to find the pairwise distances between
+\fs24  
+\fs20 each closed curve in a dataset \
+\
+
+\f5\b Find_Rotation_and_Seed_unique.m
+\f2\b0 : returns a locally optimal rotation and seed point for shape
+\fs24  
+\fs20 q2 w.r.t. q1
+\fs24 \cf0 \
+
+\f4\fs20 \
+\
+
+\f5\b \cf2 Find_Rotation_and_Seed_unique_fast.m
+\f2\b0 : similar to Find_Rotation_and_Seed_unique, but with less reparameterization to make it faster.\
+
+\f4 \cf0 \
+
+\f3\b fivefold_classspecies.m:
+\f4\b0  Five fold CV by species. NN, RF, SVM. Baseline is non-elastic.\
+\
+
+\f3\b fivefold_classtribe.m:
+\f4\b0  Five fold CV by tribe. NN, RF, SVM. Baseline is non-elastic.\
+\
+
+\f3\b fivefold_justnn.m:
+\f4\b0  Five fold CV, just nearest neighbors. \
+\
+
+\f3\b \cf2 Form_Basis_Normal_A.m:
+\f4\b0  
+\f2 returns the vector field that forms the basis
+\fs24  f
+\fs20 or normal space of \{\\cal A\}
+\f4 \cf0 \
+\
+\pard\pardeftab720\ri0\partightenfactor0
+
+\f0\b \cf0 GeodesicElasticClosed.m:
+\f1\b0  computes the geodesic path and distance between two closed curves; input - two curves p1 and p2 as 2xn matrices; output - geodesic distance; to turn off plots set figs=0\
+\
+
+\f0\b GeodesicElasticClosed_baseline.m:
+\f1\b0  GeodesicElasticClosed but with no reparameterization\
+\
+
+\f0\b \cf2 GeodesicElasticClosedFast_NS.m
+\f1\b0 : GeodesicElasticClosed but with 
+\f2  but with Find_Rotation_and_Seed_unique_fast\
+\
+
+\f0\b GeodesicElasticClosedFast_NS_baseline.m
+\f1\b0 : GeodesicElasticClosed_baseline but with 
+\f2  but with Find_Rotation_and_Seed_unique_fast\
+\
+\pard\pardeftab720\ri0\partightenfactor0
+
+\f5\b \cf2 geodesic_sphere_Full.m
+\f2\b0 : calculates a geodesic on the sphere at the
+\fs24  
+\fs20 starting point x_init in the direction g
+\fs24 \
+\pard\pardeftab720\ri0\partightenfactor0
+
+\f1\fs20 \cf0 \
+
+\f0\b Gram_Schmidt.m:
+\f1\b0  Gram Schmidt of X using inner product varargin\
+\
+
+\f0\b Group_Action_by_Gamma_Coord:
+\f1\b0  action of gamma on f
+\f4 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs24 \cf0 \
+\pard\pardeftab720\ri0\partightenfactor0
+
+\f3\b\fs20 \cf0 InnerProd_Q
+\f4\b0 : inner product between q1 and q2\
+\
+
+\f3\b leaveoneout_classtribe.m:
+\f4\b0  Leave one out classification by tribe for chosen tooth type. Can be altered slightly to run classification by species. \
+\
+
+\f3\b NearestNeighbor1_Class.m:
+\f2\b0 \cf2 runs k=1 nearest neighbor classification on pairwise
+\fs24  
+\fs20 distance matrices 
+\fs24 \cf0 \
+
+\f4\fs20 \
+
+\f3\b NearestNeighbor3_Class.m:
+\f2\b0 \cf2 runs k=3 nearest neighbor classification on pairwise
+\fs24  
+\fs20 distance matrices \
+\
+
+\f3\b \cf0 NearestNeighbor4_Class.m:
+\f2\b0 \cf2 runs k=5 nearest neighbor classification on pairwise
+\fs24  
+\fs20 distance matrices 
+\f4 \cf0 \
+\
+
+\f3\b onefold_class.m:
+\f4\b0  runs k-fold cross validation for just one fold\
+\
+
+\f3\b OverallTrainTangentFeatures.m:
+\f4\b0  
+\f2 \cf2 project all objects onto the tangent space of the overall mean of the training data and save the x,y coordinates as an n x 2*p*m array
+\f4 \cf0 \
+\
+
+\f3\b Parallel_Transport_C.m:
+\f4\b0  
+\f2 \cf2 parallel transports a vector w from
+\fs24  
+\fs20 alpha1 \\in T_\{\\alpha1\}\{\\cal C\} to alpha2 \\in T_\{\\alpha2\}\{\\cal C\}
+\f4 \cf0 \
+\
+
+\f3\b Path_Plot.m:
+\f4\b0  Plot the path between two curves\
+\
+
+\f3\b PCA_plots.m:
+\f4\b0 \cf2  
+\f2 replicates the plots on page 1043 of Kurtek et. al. these plots display the covariance structure in the data displayed using
+\fs24  
+\fs20 the first three principal components 
+\fs24 \cf0 \
+
+\f4\fs20 \
+
+\f3\b Project_Tangent.m:
+\f4\b0  
+\f2 \cf2 This function projects the tangent vector f in the
+\fs24  
+\fs20 Tangent space of \{\\cal C\} at q\
+\
+
+\f5\b Project_C.m
+\f2\b0 : This function centers q (?)
+\fs24 \
+
+\f4\fs20 \cf0 \
+
+\f3\b q_to_curve.m:
+\f4\b0  take SRVFs (?) points and put them back to a curve \
+\
+
+\f3\b ReSampleCurve.m: 
+\f4\b0 resample N points on curve X 
+\f3\b \
+\
+run_nn.m:
+\f4\b0  
+\f2 \cf2 run k nearest neighbors classification num_reps times
+\fs24 \cf0 \
+
+\f4\fs20 \
+
+\f3\b run_pd.m:
+\f4\b0  gets the pairwise distance matrices, elastic and non-elastic (beeline) for each tooth type\
+\
+
+\f3\b ShiftF.m:
+\f4\b0  Shift function\
+\
+
+\f3\b summary_plots.m:
+\f4\b0  plots mean, median, and PC plots for specified tooth and tribe (or species)\
+\
+
+\f3\b Teeth_summary_code.m: 
+\f4\b0 computes and saves median, mean, and covariance for each tribe for a specified tooth type.\
+\
+
+\f3\b TrainTestFeatures.m:
+\f4\b0  Get test and training features using pairwise distances, and PCs. Using either category means or overall mean of training data. 
+\f1 \
+}
