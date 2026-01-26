@@ -1,62 +1,95 @@
-set.seed(20240521)
+set.seed(20251208)
 library(jpeg)
 library(tidyverse)
 library(dplyr)
 library(Momocs)
 library(fdasrvf)
 
-#I removed 133B from LM2 Pricei
-#test
 data <- list()
 for (i in c("LM1","LM2","LM3","UM1","UM2","UM3")){
   data[[i]] <- list()
-  path <- paste0("./data/pricei_bw/images/Fossil/Tragelaphini/Tragelaphus/pricei/",i,"/bw")
-  file_list_BW_extant <- list.files(path, recursive = TRUE, full.names = TRUE)
+  
+  ###########
+  #darti
+  ###########
+  path <- paste0("./data/images/Fossil/Reduncini/Redunca/darti/",i,"/bw")
+  file_list_BW_darti_fossil <- list.files(path, recursive = TRUE, full.names = TRUE)
   
   #Import the BW image files.
   start <- Sys.time()
   import_BW <- function(x){import_jpg(x)[[1]]}
-  teeth_BW_train <- lapply(as.list(file_list_BW_extant), import_BW)
-  names(teeth_BW_train) <- unlist(lapply(strsplit(file_list_BW_extant,"/"), function(x){x[[length(x)]]}))
-  names(teeth_BW_train) <- substring(names(teeth_BW_train),1,nchar(names(teeth_BW_train))-4)
+  teeth_BW_train_darti_fossil <- lapply(as.list(file_list_BW_darti_fossil), import_BW)
+  names(teeth_BW_train_darti_fossil) <- unlist(lapply(strsplit(file_list_BW_darti_fossil,"/"), function(x){x[[length(x)]]}))
+  names(teeth_BW_train_darti_fossil) <- substring(names(teeth_BW_train_darti_fossil),1,nchar(names(teeth_BW_train_darti_fossil))-4)
   end <- Sys.time()
   end - start
   
-  data[[i]][["pricei"]] <- teeth_BW_train
+  data[[i]][["darti"]] <- teeth_BW_train_darti_fossil
   
-  
-  path <- paste0("./data/scriptus_bw/images/Extant/Tragelaphini/Tragelaphus/scriptus/",i,"/bw")
-  file_list_BW_extant <- list.files(path, recursive = TRUE, full.names = TRUE)
+  ###########
+  #arundinum
+  ###########  
+  path <- paste0("./data/images/Extant/Reduncini/Redunca/arundinum/",i,"/bw")
+  file_list_BW_arundinum_extant <- list.files(path, recursive = TRUE, full.names = TRUE)
   
   #Import the BW image files.
   start <- Sys.time()
   import_BW <- function(x){import_jpg(x)[[1]]}
-  teeth_BW_train <- lapply(as.list(file_list_BW_extant), import_BW)
-  names(teeth_BW_train) <- unlist(lapply(strsplit(file_list_BW_extant,"/"), function(x){x[[length(x)]]}))
-  names(teeth_BW_train) <- substring(names(teeth_BW_train),1,nchar(names(teeth_BW_train))-4)
-  #substring(file_list_BW_extant, unlist(gregexpr( "JPG",file_list_BW_extant)) - 9, unlist(gregexpr( "JPG",file_list_BW_extant)) - 2)
+  teeth_BW_train_arundinum_extant <- lapply(as.list(file_list_BW_arundinum_extant), import_BW)
+  names(teeth_BW_train_arundinum_extant) <- unlist(lapply(strsplit(file_list_BW_arundinum_extant,"/"), function(x){x[[length(x)]]}))
+  names(teeth_BW_train_arundinum_extant) <- substring(names(teeth_BW_train_arundinum_extant),1,nchar(names(teeth_BW_train_arundinum_extant))-4)
   end <- Sys.time()
   end - start
   
-  data[[i]][["scriptus"]] <- teeth_BW_train
+  data[[i]][["arundinum"]] <- teeth_BW_train_arundinum_extant
   
+  ###########
+  #fulvorufula
+  ###########    
+  path <- paste0("./data/images/Extant/Reduncini/Redunca/fulvorufula/",i,"/bw")
+  file_list_BW_fulvorufula_extant <- list.files(path, recursive = TRUE, full.names = TRUE)
   
+  #Import the BW image files.
+  start <- Sys.time()
+  import_BW <- function(x){import_jpg(x)[[1]]}
+  teeth_BW_train_fulvorufula_extant <- lapply(as.list(file_list_BW_fulvorufula_extant), import_BW)
+  names(teeth_BW_train_fulvorufula_extant) <- unlist(lapply(strsplit(file_list_BW_fulvorufula_extant,"/"), function(x){x[[length(x)]]}))
+  names(teeth_BW_train_fulvorufula_extant) <- substring(names(teeth_BW_train_fulvorufula_extant),1,nchar(names(teeth_BW_train_fulvorufula_extant))-4)
+  end <- Sys.time()
+  end - start
   
+  data[[i]][["fulvorufula"]] <- teeth_BW_train_fulvorufula_extant
   
 }
 
+
+
+
 #Manual fixes:
+#Check if any teeth are counter clockwise
 #All teeth should fo clock wise.  These two are going COUNTER clockwise.  Reverse them:
-#1 IMG_1375       LM1 scriptus  1191.361  -51754.13
-#2     M21B       UM2   pricei  1426.617    -68316.71
-data[["UM2"]][["pricei"]][["M21B"]] <- data[["UM2"]][["pricei"]][["M21B"]][nrow(data[["UM2"]][["pricei"]][["M21B"]]):1,]
-#data[["LM1"]][["scriptus"]][["IMG_1375"]] <- data[["LM1"]][["scriptus"]][["IMG_1375"]][nrow(data[["LM1"]][["scriptus"]][["IMG_1375"]]):1,]
+#These teeth go counterclockwise.  
+#They need to be corrected to go clockwise
+#LM1  num 15: DSCN0680 
+
+#LM2 num 48 and 70
+#DSCN3442
+#DSCN4351
+
+#LM3 num 42
+#DSCN0986
+
+#UM2 num 71 
+#DSCN6138
+
+#Manual corrections
+# data[["LM1"]][["darti"]][["DSCN0680"]] <- data[["LM1"]][["darti"]][["DSCN0680"]][nrow(data[["LM1"]][["darti"]][["DSCN0680"]]):1,]
+# data[["LM2"]][["arundinum"]][["DSCN3442"]] <- data[["LM2"]][["arundinum"]][["DSCN3442"]][nrow(data[["LM2"]][["arundinum"]][["DSCN3442"]]):1,]
+# data[["LM2"]][["fulvorufula"]][["DSCN4351"]] <- data[["LM2"]][["fulvorufula"]][["DSCN4351"]][nrow(data[["LM2"]][["fulvorufula"]][["DSCN4351"]]):1,]
+# data[["LM3"]][["darti"]][["DSCN0986"]] <- data[["LM3"]][["darti"]][["DSCN0986"]][nrow(data[["LM3"]][["darti"]][["DSCN0986"]]):1,]
+# data[["UM2"]][["fulvorufula"]][["DSCN6138"]] <- data[["UM2"]][["fulvorufula"]][["DSCN6138"]][nrow(data[["UM2"]][["fulvorufula"]][["DSCN6138"]]):1,]
 #Save the list
-save(data, file = "/data/teethdata_scriptus_pricei.RData")
-
-#Load the same data for shape only.  
-load("/Users/gregorymatthews/Dropbox/teeth-scriptus-pricei/data/teethdata_scriptus_pricei.RData")
-
+save(data, file = "./data/teethdata_arundinum_darti_fulvorufula.RData")
 
 
 #Now do data prep for matlab
@@ -67,29 +100,55 @@ make_same_num_points <- function(x, N = 500){
 }
 
 for (i in c("LM1", "LM2", "LM3", "UM1", "UM2", "UM3")) {
-  data[[i]][["scriptus"]] <-
-    lapply(data[[i]][["scriptus"]], make_same_num_points)
-  data[[i]][["pricei"]] <-
-    lapply(data[[i]][["pricei"]], make_same_num_points)
+  data[[i]][["darti"]] <-
+    lapply(data[[i]][["darti"]], make_same_num_points)
+  data[[i]][["arundinum"]] <-
+    lapply(data[[i]][["arundinum"]], make_same_num_points)
+  data[[i]][["fulvorufula"]] <-
+    lapply(data[[i]][["fulvorufula"]], make_same_num_points)
 }
+
+
 
 
 data_for_matlab <- list()
 for (i in c("LM1", "LM2", "LM3", "UM1", "UM2", "UM3")) {print(i)
   data_for_matlab[[i]] <- list()
-  data_for_matlab[[i]][["scriptus"]] <- do.call(rbind,data[[i]][["scriptus"]])
-  data_for_matlab[[i]][["pricei"]] <- do.call(rbind,data[[i]][["pricei"]])
+  data_for_matlab[[i]][["darti"]] <- do.call(rbind,data[[i]][["darti"]])
+  data_for_matlab[[i]][["arundinum"]] <- do.call(rbind,data[[i]][["arundinum"]])
+  data_for_matlab[[i]][["fulvorufula"]] <- do.call(rbind,data[[i]][["fulvorufula"]])
 }
 
 
 
 for (i in c("LM1", "LM2", "LM3", "UM1", "UM2", "UM3")) {print(i)
-  write.csv(data_for_matlab[[i]][["scriptus"]],file = paste0("./data/matlab/data_",i,"_scriptus.csv"), row.names = FALSE)
-  write.csv(data_for_matlab[[i]][["pricei"]],file = paste0("./data/matlab/data_",i,"_pricei.csv"), row.names = FALSE)
+  write.csv(data_for_matlab[[i]][["darti"]],file = paste0("./data/matlab/data_",i,"_darti.csv"), row.names = FALSE)
+  write.csv(data_for_matlab[[i]][["arundinum"]],file = paste0("./data/matlab/data_",i,"_arundinum.csv"), row.names = FALSE)
+  write.csv(data_for_matlab[[i]][["fulvorufula"]],file = paste0("./data/matlab/data_",i,"_fulvorufula.csv"), row.names = FALSE)
 }
 
-# run teeth_scriptus_pricei_find-mean_combined.m in matlab
+save(data, file = "./data/teethdata_darti_arundinum_fulvorfula.RData")
+load("./data/teethdata_darti_arundinum_fulvorfula.RData")
+for (toothtype in c("LM1","LM2","LM3","UM1","UM2","UM3")){print(toothtype)
+  
+  
+  labels <- data.frame(ID = c(names(data[[toothtype]][["darti"]]),
+                              names(data[[toothtype]][["arundinum"]]),
+                              names(data[[toothtype]][["fulvorufula"]])), 
+                       species = c(rep("darti",length(data[[toothtype]][["darti"]])),
+                                   rep("arundinum",length(data[[toothtype]][["arundinum"]])),
+                                   rep("fulvorufula",length(data[[toothtype]][["fulvorufula"]]))))
+  
+  #Run this script first in matlab: pairwise_dist_scriptus_pricei.m
+  #Pariwise distances
+  #First rows are scriptus and last rows are pricei
+  ddd <- read.csv(paste0("./data/matlab/pairwise_distances_",toothtype,".csv"), header = FALSE)
+  ddd <- as.matrix(ddd)
+  
+  forgg <- cbind(labels,cmdscale(ddd))
+  forgg <- forgg %>% rename(x = `1`, y = `2`)
+  forgg %>% ggplot(aes(x = x, y = y, color = species)) + geom_point() + theme_bw()
+  
+}
 
-
-
-
+image(ddd)

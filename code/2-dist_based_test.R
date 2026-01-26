@@ -1,13 +1,18 @@
-Dlist <- list()
+#Dlist <- list()
 set.seed(20240521)
-load("/Users/gregorymatthews/Dropbox/teeth-scriptus-pricei-size/data/teethdata_scriptus_pricei.RData")
+load("./data/teethdata_darti_arundinum_fulvorfula.RData")
 pvals <- list()
 for (toothtype in c("LM1","LM2","LM3","UM1","UM2","UM3")){print(toothtype)
+  
+pvals[[toothtype]] <- c()
+n_darti <- length(data[[toothtype]][["darti"]])
+n_arundinum <- length(data[[toothtype]][["arundinum"]])
+n_fulvorufula <- length(data[[toothtype]][["fulvorufula"]])
 
-n_scriptus <- length(data[[toothtype]][["scriptus"]])
-n_pricei <- length(data[[toothtype]][["pricei"]])
+class <- c(rep("darti",n_darti),
+           rep("arundinum",n_arundinum),
+           rep("fulvorufula",n_fulvorufula))
 
-class <- c(rep("scriptus",n_scriptus),rep("pricei",n_pricei))
 
 #Run this script first in matlab: pairwise_dist_scriptus_pricei.m
 #Pariwise distances
@@ -21,38 +26,71 @@ ddd <- as.matrix(ddd)
 #to 2. Use distances in the size-shape space.  (I just need a function that computes distance between shapes tha tpreserves size.)
 
 
-Dbar11 <- sum(ddd[class == "scriptus",class == "scriptus"])/(n_scriptus^2)
-Dbar22 <- sum(ddd[class == "pricei",class == "pricei"])/(n_pricei^2)
-Dbar12 <- sum(ddd[class == "pricei",class == "scriptus"])/(n_pricei*n_scriptus)
+##########################################
+#darti vs arundinum
+##########################################
+Dbar11 <- sum(ddd[class == "darti",class == "darti"])/(n_darti^2)
+Dbar22 <- sum(ddd[class == "arundinum",class == "arundinum"])/(n_arundinum^2)
+Dbar12 <- sum(ddd[class == "darti",class == "arundinum"])/(n_darti*n_arundinum)
 
-S <- ((n_scriptus*n_pricei)/((n_scriptus+n_pricei)))*(2*Dbar12 - (Dbar11 + Dbar22))
-
-Dlist[[toothtype]] <- data.frame(toothtype, Dbar11, Dbar22, Dbar12)
-
+S <- ((n_darti*n_arundinum)/((n_darti+n_arundinum)))*(2*Dbar12 - (Dbar11 + Dbar22))
 
 #Now permute
 Sperm <- c()
-nsim <- 10
-for (i in 1:nsim){print(i)
-class_perm <- sample(class,length(class),replace = FALSE)
-Dbar11 <- sum(ddd[class_perm == "scriptus",class_perm == "scriptus"])/(n_scriptus^2)
-Dbar22 <- sum(ddd[class_perm == "pricei",class_perm == "pricei"])/(n_pricei^2)
-Dbar12 <- sum(ddd[class_perm == "pricei",class_perm == "scriptus"])/(n_pricei*n_scriptus)
-
-Sperm[i] <- ((n_scriptus*n_pricei)/((n_scriptus+n_pricei)))*(2*Dbar12 - (Dbar11 + Dbar22))
+nsim <- 10000
+for (i in 1:nsim){
+  class_sub <- class[class %in% c("darti","arundinum")]
+  class_perm <- sample(class_sub,length(class_sub),replace = FALSE)
+  Dbar11 <- sum(ddd[class_perm == "darti",class_perm == "darti"])/(n_darti^2)
+  Dbar22 <- sum(ddd[class_perm == "arundinum",class_perm == "arundinum"])/(n_arundinum^2)
+  Dbar12 <- sum(ddd[class_perm == "darti",class_perm == "arundinum"])/(n_darti*n_arundinum)
+  
+  Sperm[i] <- ((n_darti*n_arundinum)/((n_darti+n_arundinum)))*(2*Dbar12 - (Dbar11 + Dbar22))
 }
 
-pvals[[toothtype]] <- mean(Sperm >= S)
+pvals[[toothtype]]["darti_arundinum"] <- mean(Sperm >= S)
 
-hist(Sperm, main = toothtype, xlim = c(0, S + 5))
-abline(v = S, col = "red")
+# hist(Sperm, main = toothtype, xlim = c(0, S + .05))
+# abline(v = S, col = "red")
+
+
+##########################################
+#darti vs fulvorufula
+##########################################
+Dbar11 <- sum(ddd[class == "darti",class == "darti"])/(n_darti^2)
+Dbar22 <- sum(ddd[class == "fulvorufula",class == "fulvorufula"])/(n_fulvorufula^2)
+Dbar12 <- sum(ddd[class == "darti",class == "fulvorufula"])/(n_darti*n_fulvorufula)
+
+S <- ((n_darti*n_fulvorufula)/((n_darti+n_fulvorufula)))*(2*Dbar12 - (Dbar11 + Dbar22))
+
+#Now permute
+Sperm <- c()
+nsim <- 10000
+for (i in 1:nsim){
+  class_sub <- class[class %in% c("darti","fulvorufula")]
+  class_perm <- sample(class_sub,length(class_sub),replace = FALSE)
+  Dbar11 <- sum(ddd[class_perm == "darti",class_perm == "darti"])/(n_darti^2)
+  Dbar22 <- sum(ddd[class_perm == "fulvorufula",class_perm == "fulvorufula"])/(n_fulvorufula^2)
+  Dbar12 <- sum(ddd[class_perm == "darti",class_perm == "fulvorufula"])/(n_darti*n_fulvorufula)
+  
+  Sperm[i] <- ((n_darti*n_fulvorufula)/((n_darti+n_fulvorufula)))*(2*Dbar12 - (Dbar11 + Dbar22))
+}
+
+pvals[[toothtype]]["darti_fulvorufula"] <- mean(Sperm >= S)
+
 
 }
 
-unlist(pvals)
+p.adjust(unlist(pvals),"fdr") 
+
+out <- data.frame(toothtpye = rep(c("LM1","LM2","LM3","UM1","UM2","UM3"),each = 2),
+                  comparison = rep(c("darti_arundinum","darti_fulvorufula"),6),
+                  raw_pvalue = unlist(pvals),
+                  adjusted_pvalue = p.adjust(unlist(pvals),"fdr"))
+write.csv(out, file = "./results/pvalues_size_and_shape_only.csv", row.names = FALSE)
 
 
-do.call(rbind,Dlist)
+
 
 
 
