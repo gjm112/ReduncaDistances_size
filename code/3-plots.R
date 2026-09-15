@@ -91,6 +91,8 @@ dat[dat$toothtype == "UM1" & dat$species == "darti",c("x","y")] <- dat %>% filte
 
 
 png("./mean-size-and-shapes.png", res = 300, units = "in", h = 6, w = 10)
-ggplot(aes(x = x, y = y, col = species), data = dat) + geom_path() + facet_grid(toothtype_num ~ toothtype_char) + theme_bw()  + coord_fixed()
+ggplot(aes(x = x, y = y, col = species), data = dat) + geom_path() + facet_grid(toothtype_num ~ toothtype_char) + theme_bw()  + coord_fixed() +  
+  scale_x_continuous(breaks = c(-20*300/25.4,-10*300/25.4,0,10*300/25.4,20*300/25.4), labels = c(-20,-10,0,10,20)) + xlab("x (mm)") + 
+  scale_y_continuous(breaks = c(-20*300/25.4,-10*300/25.4,0,10*300/25.4,20*300/25.4), labels = c(-20,-10,0,10,20)) + ylab("y (mm)")
 dev.off()
 
