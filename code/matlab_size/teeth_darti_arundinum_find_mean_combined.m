@@ -4,12 +4,14 @@ cd /Users/gregorymatthews/Dropbox/ReduncaDistances_sizeGit/code/matlab_size
 %size-and-shape.  The difference is that that functions here do not remove
 %the size
 toothtype = {"LM1","LM2","LM3","UM1","UM2","UM3"}
-species = {"darti", "arundinum","fulvorufula"}
+species = {"darti", "arundinum"}
 for t=1:6
-    for sp=1:2
-        %The input data is the same for size-and-shape and shape only
-        data = readtable(wd + "/ReduncaDistances_sizeGit/data/matlab/data_"+toothtype(t)+"_"+species(sp)+".csv")
-        
+
+        data_darti = readtable(wd + "/ReduncaDistancesGit/data/matlab/data_"+toothtype(t)+"_darti.csv")
+        data_arundinum = readtable(wd + "/ReduncaDistancesGit/data/matlab/data_"+toothtype(t)+"_arundinum.csv")
+       %data_fulvorufula = readtable(wd + "/ReduncaDistances_sizeGit/data/matlab/data_"+toothtype(t)+"_fulvorufula.csv")
+data=[data_darti; data_arundinum] 
+
         %get the number of rows and cols
         n_rows = size(data,1);
         n_cols = size(data,2);
@@ -38,16 +40,15 @@ for t=1:6
 
 
         
-               %Now save the average tooth
-        save(wd +"/ReduncaDistances_sizeGit/data/matlab/VV_"+toothtype(t)+"_"+species(sp)+".mat","VV")
-        save(wd +"/ReduncaDistances_sizeGit/data/matlab/PC_feat_"+toothtype(t)+"_"+species(sp)+".mat","PC_feat")
-        save(wd +"/ReduncaDistances_sizeGit/data/matlab/out_beta_"+toothtype(t)+"_"+species(sp)+".mat","out_beta")
+        %Now save the average tooth
+        save(wd+"/ReduncaDistances_sizeGit/data/matlab/VV_"+toothtype(t)+"_combined.mat","VV")
+        save(wd+"/ReduncaDistances_sizeGit/data/matlab/PC_feat_"+toothtype(t)+"_combined.mat","PC_feat")
+        save(wd+"/ReduncaDistances_sizeGit/data/matlab/out_beta_"+toothtype(t)+"_combined.mat","out_beta")
 
-csvwrite(wd +"/ReduncaDistances_sizeGit/data/matlab/VV_"+toothtype(t)+"_"+species(sp)+".csv",VV)
-csvwrite(wd +"/ReduncaDistances_sizeGit/data/matlab/PC_feat_"+toothtype(t)+"_"+species(sp)+".csv",PC_feat)
-csvwrite(wd +"/ReduncaDistances_sizeGit/data/matlab/out_beta_"+toothtype(t)+"_"+species(sp)+".csv",out_beta)
+csvwrite(wd+"/ReduncaDistances_sizeGit/data/matlab/VV_"+toothtype(t)+"_combined.csv",VV)
+csvwrite(wd+"/ReduncaDistances_sizeGit/data/matlab/PC_feat_"+toothtype(t)+"_combined.csv",PC_feat)
+csvwrite(wd+"/ReduncaDistances_sizeGit/data/matlab/out_beta_"+toothtype(t)+"_combined.csv",out_beta)
 
-    end
 end  
         
         

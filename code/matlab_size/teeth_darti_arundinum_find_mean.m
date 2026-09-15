@@ -4,11 +4,11 @@ cd /Users/gregorymatthews/Dropbox/ReduncaDistances_sizeGit/code/matlab_size
 %size-and-shape.  The difference is that that functions here do not remove
 %the size
 toothtype = {"LM1","LM2","LM3","UM1","UM2","UM3"}
-species = {"darti", "arundinum","fulvorufula"}
+species = {"darti", "arundinum"}
 for t=1:6
     for sp=1:2
         %The input data is the same for size-and-shape and shape only
-        data = readtable(wd + "/ReduncaDistances_sizeGit/data/matlab/data_"+toothtype(t)+"_"+species(sp)+".csv")
+        data = readtable(wd + "/ReduncaDistancesGit/data/matlab/data_"+toothtype(t)+"_"+species(sp)+".csv")
         
         %get the number of rows and cols
         n_rows = size(data,1);

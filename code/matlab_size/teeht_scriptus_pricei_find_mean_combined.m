@@ -1,16 +1,17 @@
 wd = "/Users/gregorymatthews/Dropbox"
-cd /Users/gregorymatthews/Dropbox/teeth-scriptus-pricei-size/code/matlab_size/
+cd /Users/gregorymatthews/Dropbox/ReduncaDistances_sizeGit/code/matlab_size
 %The data set that gets read in here is the same for both shape only and
 %size-and-shape.  The difference is that that functions here do not remove
 %the size
 toothtype = {"LM1","LM2","LM3","UM1","UM2","UM3"}
-species = {"pricei", "scriptus"}
+species = {"darti", "arundinum"}
 for t=1:6
 
-        data_scriptus = readtable(wd + "/teeth-scriptus-pricei/data/matlab/data_"+toothtype(t)+"_scriptus.csv")
-        data_pricei = readtable(wd + "/teeth-scriptus-pricei/data/matlab/data_"+toothtype(t)+"_pricei.csv")
-data=[data_scriptus; data_pricei]
-        
+        data_darti = readtable(wd + "/ReduncaDistances_sizeGit/data/matlab/data_"+toothtype(t)+"_darti.csv")
+        data_arundinum = readtable(wd + "/ReduncaDistances_sizeGit/data/matlab/data_"+toothtype(t)+"_arundinum.csv")
+       %data_fulvorufula = readtable(wd + "/ReduncaDistances_sizeGit/data/matlab/data_"+toothtype(t)+"_fulvorufula.csv")
+data=[data_darti; data_arundinum] 
+
         %get the number of rows and cols
         n_rows = size(data,1);
         n_cols = size(data,2);
@@ -40,13 +41,13 @@ data=[data_scriptus; data_pricei]
 
         
         %Now save the average tooth
-        save(wd+"/teeth-scriptus-pricei-size/data/matlab/VV_"+toothtype(t)+"_combined.mat","VV")
-        save(wd+"/teeth-scriptus-pricei-size/data/matlab/PC_feat_"+toothtype(t)+"_combined.mat","PC_feat")
-        save(wd+"/teeth-scriptus-pricei-size/data/matlab/out_beta_"+toothtype(t)+"_combined.mat","out_beta")
+        save(wd+"/ReduncaDistances_sizeGit/data/matlab/VV_"+toothtype(t)+"_combined.mat","VV")
+        save(wd+"/ReduncaDistances_sizeGit/data/matlab/PC_feat_"+toothtype(t)+"_combined.mat","PC_feat")
+        save(wd+"/ReduncaDistances_sizeGit/data/matlab/out_beta_"+toothtype(t)+"_combined.mat","out_beta")
 
-csvwrite(wd+"/teeth-scriptus-pricei-size/data/matlab/VV_"+toothtype(t)+"_combined.csv",VV)
-csvwrite(wd+"/teeth-scriptus-pricei-size/data/matlab/PC_feat_"+toothtype(t)+"_combined.csv",PC_feat)
-csvwrite(wd+"/teeth-scriptus-pricei-size/data/matlab/out_beta_"+toothtype(t)+"_combined.csv",out_beta)
+csvwrite(wd+"/ReduncaDistances_sizeGit/data/matlab/VV_"+toothtype(t)+"_combined.csv",VV)
+csvwrite(wd+"/ReduncaDistances_sizeGit/data/matlab/PC_feat_"+toothtype(t)+"_combined.csv",PC_feat)
+csvwrite(wd+"/ReduncaDistances_sizeGit/data/matlab/out_beta_"+toothtype(t)+"_combined.csv",out_beta)
 
 end  
         

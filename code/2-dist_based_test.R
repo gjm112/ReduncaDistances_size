@@ -1,6 +1,6 @@
 #Dlist <- list()
 set.seed(20240521)
-load("./data/teethdata_darti_arundinum_fulvorfula.RData")
+load("./data/teethdata_arundinum_darti_fulvorufula.RData")
 pvals <- list()
 for (toothtype in c("LM1","LM2","LM3","UM1","UM2","UM3")){print(toothtype)
   
@@ -87,7 +87,7 @@ out <- data.frame(toothtpye = rep(c("LM1","LM2","LM3","UM1","UM2","UM3"),each = 
                   comparison = rep(c("darti_arundinum","darti_fulvorufula"),6),
                   raw_pvalue = unlist(pvals),
                   adjusted_pvalue = p.adjust(unlist(pvals),"fdr"))
-write.csv(out, file = "./results/pvalues_size_and_shape_only.csv", row.names = FALSE)
+write.csv(out, file = "./results/pvalues_size_and_shape.csv", row.names = FALSE)
 
 
 

@@ -4,9 +4,9 @@ toothtype = {"LM1","LM2","LM3","UM1","UM2","UM3"}
 species = {"darti", "arundinum","fulvorufula"}
 for t=1:6
 
-        data_darti = readtable(wd + "/ReduncaDistances_sizeGit/data/matlab/data_"+toothtype(t)+"_darti.csv")
-        data_arundinum = readtable(wd + "/ReduncaDistances_sizeGit/data/matlab/data_"+toothtype(t)+"_arundinum.csv")
-        data_fulvorufula = readtable(wd + "/ReduncaDistances_sizeGit/data/matlab/data_"+toothtype(t)+"_fulvorufula.csv")
+        data_darti = readtable("/Users/gregorymatthews/Dropbox/ReduncaDistancesGit/data/matlab/data_"+toothtype(t)+"_darti.csv")
+        data_arundinum = readtable("/Users/gregorymatthews/Dropbox/ReduncaDistancesGit/data/matlab/data_"+toothtype(t)+"_arundinum.csv")
+        data_fulvorufula = readtable("/Users/gregorymatthews/Dropbox/ReduncaDistancesGit/data/matlab/data_"+toothtype(t)+"_fulvorufula.csv")
 data=[data_darti; data_arundinum; data_fulvorufula] 
         
         %get the number of rows and cols
